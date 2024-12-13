@@ -3,17 +3,18 @@ import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/utils/utils.dart';
 
 class CCard extends StatelessWidget {
-  const CCard(
-      {super.key,
-      this.cardColor,
-      this.borderR,
-      this.height,
-      this.width,
-      this.margin,
-      this.padding,
-      this.onClick,
-      this.lengthData,
-      required this.item});
+  const CCard({
+    super.key,
+    this.cardColor,
+    this.borderR,
+    this.height,
+    this.width,
+    this.margin,
+    this.padding,
+    this.onClick,
+    this.lengthData,
+    required this.item,
+  });
 
   final VoidCallback? onClick;
   final PokemonModel item;
@@ -27,7 +28,9 @@ class CCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   final  int pokeNumber = lengthData! + 1;
+    final int pokeNumber = lengthData! + 1;
+
+    final double size = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: onClick,
       child: Container(
@@ -49,39 +52,42 @@ class CCard extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
-                  top: 10,
-                  right: 10,
+                  top: 0,
+                  right: 0,
                   child: Container(
+                  margin: const EdgeInsets.all(12),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12)),
                     child: Text(
                       "#00$pokeNumber",
-                      style: const TextStyle(
-                          fontSize: 26, fontWeight: FontWeight.bold),
+                      style:  TextStyle(
+                          fontSize: size / 20, fontWeight: FontWeight.bold),
                     ),
                   )),
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Utils.verticalText("ポケモン"),
+                child: Utils.verticalText("ポケモン", context),
               ),
-             Positioned(
-                  bottom: 30,
-                  right: 20,
+              Positioned(
+                  bottom: 0,
+                  right: 0,
                   child: Container(
+                  margin: const EdgeInsets.all(12),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12)),
                     child: Text(
                       item.nama,
-                      style: const TextStyle(
-                          fontSize: 26, fontWeight: FontWeight.bold),
+                      style:  TextStyle(
+                          fontSize: size / 32 , fontWeight: FontWeight.bold),
                     ),
                   )),
-
-              Image.network(item.gambar),
+              Center(
+                child: Image.network(item.gambar),
+              )
             ],
           )),
     );

@@ -7,15 +7,17 @@ import 'package:pokedex/utils/theme.dart';
 
 class Utils {
   static Color customCardColor(PokemonModel pokemon) {
-    final List<String> item = pokemon.jenis;
-    if (item.contains("Grass")) {
+    final String item = pokemon.jenis[0];
+    if (item == "Grass") {
       return Themes.greenC;
-    } else if (item.contains("Fire")) {
+    } else if (item == "Fire") {
       return Themes.redC;
-    } else if (item.contains("Electric")) {
-      return Colors.yellow;
-    } else if (item.contains("Water")) {
+    } else if (item == "Electric") {
+      return Themes.yellowC;
+    } else if (item == "Water") {
       return Themes.blueC;
+    } else if (item == "Poison") {
+      return Themes.purpleC;
     } else {
       return Colors.cyan;
     }
@@ -39,7 +41,7 @@ class Utils {
                     borderRadius: BorderRadius.circular(1000)),
                 child: SvgPicture.asset(
                   SvgsPath.grassSvg,
-                  color: Colors.green,
+                  color: Themes.greenC,
                 )),
           );
           break;
@@ -68,7 +70,7 @@ class Utils {
                     borderRadius: BorderRadius.circular(1000)),
                 child: SvgPicture.asset(
                   SvgsPath.electricSvg,
-                  color: Colors.yellow,
+                  color: Themes.yellowC,
                 )),
           );
           break;
@@ -100,7 +102,7 @@ class Utils {
                     borderRadius: BorderRadius.circular(1000)),
                 child: SvgPicture.asset(
                   SvgsPath.poisonSvg,
-                  color: Colors.purple,
+                  color: Themes.purpleC,
                 )),
           );
           break;
@@ -114,28 +116,26 @@ class Utils {
       children: iconList,
     );
   }
-   
 
-  static TextStyle textStyle(Color color, FontWeight fw, double fs){
+  static TextStyle textStyle(Color color, FontWeight fw, double fs) {
     return TextStyle(color: color, fontWeight: fw, fontSize: fs);
   }
 
-  static Widget verticalText(String text) {
+  static Widget verticalText(String text, BuildContext context) {
+    final double fontSize = MediaQuery.of(context).size.width;
     return Wrap(
       runSpacing: 30,
       direction: Axis.vertical,
       alignment: WrapAlignment.center,
-      children: text
-          .split("")
-          .map((string) => Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12)),
-                child: Text(string,
-                    style: const TextStyle(
-                        fontSize: 60, fontWeight: FontWeight.bold)),
-              ))
-          .toList(),
+      children: text.split("").map((String text) {
+        return Container(
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(12)),
+          child: Text(text,
+              style: TextStyle(
+                  fontSize: fontSize / 12, fontWeight: FontWeight.bold)),
+        );
+      }).toList(),
     );
   }
 }

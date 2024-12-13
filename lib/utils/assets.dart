@@ -17,4 +17,6 @@ class SvgsPath {
   static const String rockSvg = 'assets/rock.svg';
   static const String steelSvg = 'assets/steel.svg';
   static const String waterSvg = 'assets/water.svg';
+  static const String logoImg = 'assets/logo.png';
+  static const String fillterImg = 'assets/fillter.svg';
 }

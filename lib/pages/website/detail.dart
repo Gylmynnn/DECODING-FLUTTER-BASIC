@@ -81,7 +81,7 @@ class _WebDetailPokemonPageState extends State<WebDetailPokemonPage> {
                 const SizedBox(height: 20),
                 Row(
                   children: [
-                    Utils.verticalText("ポケモン"),
+                    Utils.verticalText("ポケモン", context),
                     const SizedBox(
                       width: 20,
                     ),
