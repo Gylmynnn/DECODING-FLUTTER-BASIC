@@ -22,11 +22,71 @@ List<PokemonModel> pokemons = <PokemonModel>[];
 String? selectedJenis;
 String svgPath = SvgsPath.fillterImg;
 final List<String> jenisOptions = [
+  "All",
   "Grass",
   "Poison",
   "Fire",
   "Water",
+  "Electric",
+  "Dragon",
+  "Bug",
+  "Dark",
+  "Fairy",
+  "Fighting",
+  "Flying",
+  "Ice",
+  "Ghost",
+  "Normal",
+  "Psychic",
+  "Rock",
+  "Steel",
+  "Ground",
 ];
+
+String _svgPath(String jenis) {
+  switch (jenis) {
+    case "All":
+      return SvgsPath.fillterImg;
+    case "Grass":
+      return SvgsPath.grassSvg;
+    case "Fire":
+      return SvgsPath.fireSvg;
+    case "Water":
+      return SvgsPath.waterSvg;
+    case "Poison":
+      return SvgsPath.poisonSvg;
+    case "Dragon":
+      return SvgsPath.dragonSvg;
+    case "Rock":
+      return SvgsPath.rockSvg;
+    case "Bug":
+      return SvgsPath.bugSvg;
+    case "Flying":
+      return SvgsPath.flyingSvg;
+    case "Psychic":
+      return SvgsPath.psychicSvg;
+    case "Ground":
+      return SvgsPath.groundSvg;
+    case "Normal":
+      return SvgsPath.normalSvg;
+    case "Ghost":
+      return SvgsPath.ghostSvg;
+    case "Ice":
+      return SvgsPath.iceSvg;
+    case "Fighting":
+      return SvgsPath.fightingSvg;
+    case "Fairy":
+      return SvgsPath.fairySvg;
+    case "Dark":
+      return SvgsPath.darkSvg;
+    case "Steel":
+      return SvgsPath.steelSvg;
+    case "Electric":
+      return SvgsPath.electricSvg;
+    default:
+      return "";
+  }
+}
 
 class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
   @override
@@ -37,9 +97,13 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
 
   void _fillterPokemon() {
     setState(() {
-      pokemons = dataPokemon.where((pokemon) {
-        return pokemon.jenis.contains(selectedJenis!);
-      }).toList();
+      if (selectedJenis != "All") {
+        pokemons = dataPokemon.where((pokemon) {
+          return pokemon.jenis.contains(selectedJenis!);
+        }).toList();
+      } else {
+        pokemons = dataPokemon;
+      }
     });
   }
 
@@ -58,46 +122,48 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
         context: context,
         builder: (BuildContext context) {
           return SizedBox(
-              height: 1000,
-              width: double.infinity,
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Wrap(
-                    spacing: 20,
-                    children: [
-                      CBtn(
-                        width: 14,
-                        height: 14,
-                        svgPath: SvgsPath.fireSvg,
-                        svgColor: Themes.redC,
-                        svgSize: 50,
-                        onTap: () {
-                          setState(() {
-                            selectedJenis = jenisOptions[2];
-                            _fillterPokemon();
-                            svgPath = SvgsPath.fireSvg;
-                          });
-                          Navigator.pop(context);
-                        },
+            height: 1000,
+            width: double.infinity,
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  children: [
+                    Image.asset(
+                      SvgsPath.logoImg,
+                      width: 120,
+                    ),
+                    Text("Fillter Your Pokemons"),
+                    const SizedBox(height: 12),
+                    Expanded(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 20,
+                        runSpacing: 20,
+                        children:
+                            List.generate(jenisOptions.length, (int index) {
+                          final String jenis = jenisOptions[index];
+                          return CBtn(
+                            width: 12,
+                            height: 12,
+                            svgSize: 30,
+                            svgColor: Colors.white,
+                            svgPath: _svgPath(jenis),
+                            onTap: () {
+                              setState(() {
+                                 searchC.clear();
+                                selectedJenis = jenis;
+                                _fillterPokemon();
+                                svgPath = _svgPath(jenis);
+                              });
+                              Navigator.pop(context);
+                            },
+                          );
+                        }),
                       ),
-                      CBtn(
-                        svgPath: SvgsPath.grassSvg,
-                        svgColor: Themes.greenC,
-                        width: 14,
-                        height: 14,
-                        svgSize: 50,
-                        onTap: () {
-                          setState(() {
-                            selectedJenis = jenisOptions[0];
-                            _fillterPokemon();
-                            svgPath = SvgsPath.grassSvg;
-                          });
-
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  )));
+                    ),
+                  ],
+                )),
+          );
         });
   }
 
@@ -156,6 +222,7 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
                   onTap: _openBottomSheet,
                   svgPath: svgPath,
                   svgSize: 24,
+                  svgColor: Colors.white,
                 ),
               ],
             ),
@@ -204,7 +271,7 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
                               MaterialPageRoute(
                                 builder: (BuildContext context) {
                                   return SmartphoneDetailPokemonPage(
-                                      pokemon: pokemon);
+                                      pokemonNumber: index, pokemon: pokemon);
                                 },
                               ),
                             );
