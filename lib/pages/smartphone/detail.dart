@@ -22,16 +22,21 @@ class _SmartphoneDetailPokemonPageState
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Icon(Icons.arrow_back)),
+      floatingActionButton: GestureDetector(
+      onTap: () => Navigator.pop(context),
+          child: Container(
+          padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(color: Colors.grey.shade500, blurRadius: 16, spreadRadius: 1)
+        ], shape: BoxShape.circle),
+        child: Icon(Icons.arrow_back),
+      )),
       backgroundColor: Utils.customCardColor(widget.pokemon),
       appBar: AppBar(
         leading: SizedBox(),
       ),
       body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
           Image.asset(
             SvgsPath.logoImg,
@@ -47,45 +52,131 @@ class _SmartphoneDetailPokemonPageState
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
                         color: Colors.grey, blurRadius: 16, spreadRadius: 1)
-                  ], color: Themes.whiteC, shape: BoxShape.circle),
+                  ], color: Colors.white, shape: BoxShape.circle),
                 ),
               ),
               Image.network(widget.pokemon.gambar),
             ],
           ),
+          Utils.verticalText("ポケモン", 20, direction: Axis.horizontal),
           Text(
             "${widget.pokemon.nama} | #00${widget.pokemonNumber}",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 26),
           ),
-          Divider(
-            thickness: 6,
-            indent: 62,
-            endIndent: 62,
-            color: Colors.white,
+          const SizedBox(height: 8),
+          Center(
+            child: Utils.iconElement(widget.pokemon),
           ),
+          const SizedBox(height: 12),
+          Row(children: [
+            Expanded(
+              child: Divider(
+                thickness: 6,
+                endIndent: 15,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              "Tentang",
+              style: TextStyle(fontSize: 16),
+            ),
+            Expanded(
+              child: Divider(
+                thickness: 6,
+                indent: 15,
+                // endIndent: 62,
+                color: Colors.white,
+              ),
+            ),
+          ]),
+          Text(
+            widget.pokemon.tentang,
+            textAlign: TextAlign.justify,
+          ),
+
+          const SizedBox(height: 8),
+          Row(children: [
+            Expanded(
+              child: Divider(
+                thickness: 6,
+                endIndent: 15,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              "Status",
+              style: TextStyle(fontSize: 16),
+            ),
+            Expanded(
+              child: Divider(
+                thickness: 6,
+                indent: 15,
+                // endIndent: 62,
+                color: Colors.white,
+              ),
+            ),
+          ]),
+          const SizedBox(height: 8),
           Wrap(
+            spacing: 12,
+            runSpacing: 12,
             children: List.generate(widget.pokemon.status.length, (int index) {
               final PokemonStatus status = widget.pokemon.status[index];
-              return Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('jenis : ${status.jenis}'),
-                      Text('nilai : ${status.nilai.toString()}')
-                    ],
-                  )
-                ],
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12)),
+                child: Text(
+                  "${status.jenis} : ${status.nilai}",
+                  style: TextStyle(fontSize: 12),
+                ),
               );
             }),
           ),
+          const SizedBox(height: 8),
+          Row(children: [
+            Expanded(
+              child: Divider(
+                thickness: 6,
+                endIndent: 15,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              "Kemampuan",
+              style: TextStyle(fontSize: 16),
+            ),
+            Expanded(
+              child: Divider(
+                thickness: 6,
+                indent: 15,
+                // endIndent: 62,
+                color: Colors.white,
+              ),
+            ),
+          ]),
+          const SizedBox(height: 8),
           Wrap(
-            children: List.generate(widget.pokemon.kemampuan.length, (index) {
-              return Chip(label: Text(widget.pokemon.kemampuan[index]));
+            spacing: 12,
+            runSpacing: 12,
+            children:
+                List.generate(widget.pokemon.kemampuan.length, (int index) {
+              final String kemampuan = widget.pokemon.kemampuan[index];
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12)),
+                child: Text(
+                  kemampuan,
+                  style: TextStyle(fontSize: 12),
+                ),
+              );
             }),
           ),
-          Text(widget.pokemon.tentang)
+          const SizedBox(height: 100),
         ],
       ),
     );

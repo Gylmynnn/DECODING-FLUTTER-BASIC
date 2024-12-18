@@ -81,7 +81,7 @@ class _WebDetailPokemonPageState extends State<WebDetailPokemonPage> {
                 const SizedBox(height: 20),
                 Row(
                   children: [
-                    Utils.verticalText("ポケモン", context),
+                    // Utils.verticalText("ポケモン", 12),
                     const SizedBox(
                       width: 20,
                     ),
@@ -142,7 +142,7 @@ class _WebDetailPokemonPageState extends State<WebDetailPokemonPage> {
               Image.network(
                 widget.pokemon.gambar,
                 height: 550,
-                 width: 550,
+                width: 550,
                 fit: BoxFit.cover,
               ),
             ],

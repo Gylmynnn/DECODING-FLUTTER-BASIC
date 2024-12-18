@@ -14,6 +14,9 @@ class CCard extends StatelessWidget {
     this.onClick,
     this.lengthData,
     required this.item,
+    required this.kanjiSize,
+    required this.pokeTitleSize,
+    required this.pokeNumberSize,
   });
 
   final VoidCallback? onClick;
@@ -25,12 +28,14 @@ class CCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final int? lengthData;
+  final double kanjiSize;
+  final double pokeNumberSize;
+  final double pokeTitleSize;
 
   @override
   Widget build(BuildContext context) {
     final int pokeNumber = lengthData! + 1;
 
-    final double size = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: onClick,
       child: Container(
@@ -55,34 +60,35 @@ class CCard extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: Container(
-                  margin: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.all(12),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12)),
                     child: Text(
                       "#00$pokeNumber",
-                      style:  TextStyle(
-                          fontSize: size / 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: pokeNumberSize,
+                          fontWeight: FontWeight.bold),
                     ),
                   )),
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Utils.verticalText("ポケモン", context),
+                child: Utils.verticalText("ポケモン", kanjiSize),
               ),
               Positioned(
                   bottom: 0,
                   right: 0,
                   child: Container(
-                  margin: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.all(12),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12)),
                     child: Text(
                       item.nama,
-                      style:  TextStyle(
-                          fontSize: size / 32 , fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: pokeTitleSize, fontWeight: FontWeight.bold),
                     ),
                   )),
               Center(

@@ -6,7 +6,6 @@ import 'package:pokedex/model/pokemon_data.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/pages/smartphone/detail.dart';
 import 'package:pokedex/utils/assets.dart';
-import 'package:pokedex/utils/theme.dart';
 import 'package:pokedex/utils/utils.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -109,8 +108,12 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
 
   void _searchPokemon(String query) {
     setState(() {
-      searchC.text = query;
-      pokemons = dataPokemon.where((PokemonModel pokemon) {
+      final filteredPokemon = selectedJenis == "All"
+          ? dataPokemon
+          : dataPokemon.where((pokemon) {
+              return pokemon.jenis.contains(selectedJenis!);
+            }).toList();
+      pokemons = filteredPokemon.where((PokemonModel pokemon) {
         return pokemon.nama.toLowerCase().contains(query.toLowerCase());
       }).toList();
     });
@@ -150,7 +153,7 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
                             svgPath: _svgPath(jenis),
                             onTap: () {
                               setState(() {
-                                 searchC.clear();
+                                searchC.clear();
                                 selectedJenis = jenis;
                                 _fillterPokemon();
                                 svgPath = _svgPath(jenis);
@@ -277,6 +280,9 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
                             );
                           },
                           child: CCard(
+                            pokeTitleSize: 12,
+                            kanjiSize: 34,
+                            pokeNumberSize: 20,
                             margin: const EdgeInsets.all(6),
                             cardColor: Utils.customCardColor(pokemon),
                             item: pokemon,

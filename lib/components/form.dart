@@ -31,11 +31,11 @@ class CForm extends StatelessWidget {
           fillColor: Themes.blackC.withAlpha(30),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
           ),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           suffixIcon: suffixIcon,

@@ -17,7 +17,7 @@ class _WebsiteHomePageState extends State<WebsiteHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Pokedex")),
+      appBar: AppBar(title: Text("Pokedex".toUpperCase())),
       body: FutureBuilder(
         future: Future.delayed(const Duration(seconds: 2)),
         builder: (context, snapshot) {
@@ -51,6 +51,9 @@ class _WebsiteHomePageState extends State<WebsiteHomePage> {
                   itemBuilder: (BuildContext context, int index) {
                     final PokemonModel pokemon = dataPokemon[index];
                     return CCard(
+                    pokeNumberSize: 32,
+                    pokeTitleSize: 32,
+                    kanjiSize: 60,
                       lengthData: index,
                       margin: const EdgeInsets.all(8),
                       cardColor: Utils.customCardColor(pokemon),

@@ -121,19 +121,20 @@ class Utils {
     return TextStyle(color: color, fontWeight: fw, fontSize: fs);
   }
 
-  static Widget verticalText(String text, BuildContext context) {
-    final double fontSize = MediaQuery.of(context).size.width;
+  static Widget verticalText(String text, double fontSize, {Axis? direction}) {
     return Wrap(
       runSpacing: 30,
-      direction: Axis.vertical,
+      direction: direction ?? Axis.vertical,
       alignment: WrapAlignment.center,
       children: text.split("").map((String text) {
         return Container(
+          padding: EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(12)),
           child: Text(text,
-              style: TextStyle(
-                  fontSize: fontSize / 12, fontWeight: FontWeight.bold)),
+              textAlign: TextAlign.center,
+              style:
+                  TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold)),
         );
       }).toList(),
     );
