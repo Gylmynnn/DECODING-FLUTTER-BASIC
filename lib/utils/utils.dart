@@ -23,6 +23,51 @@ class Utils {
     }
   }
 
+  static String svgImage(String jenis) {
+    switch (jenis) {
+      case "All":
+        return SvgsPath.fillterImg;
+      case "Grass":
+        return SvgsPath.grassSvg;
+      case "Fire":
+        return SvgsPath.fireSvg;
+      case "Water":
+        return SvgsPath.waterSvg;
+      case "Poison":
+        return SvgsPath.poisonSvg;
+      case "Dragon":
+        return SvgsPath.dragonSvg;
+      case "Rock":
+        return SvgsPath.rockSvg;
+      case "Bug":
+        return SvgsPath.bugSvg;
+      case "Flying":
+        return SvgsPath.flyingSvg;
+      case "Psychic":
+        return SvgsPath.psychicSvg;
+      case "Ground":
+        return SvgsPath.groundSvg;
+      case "Normal":
+        return SvgsPath.normalSvg;
+      case "Ghost":
+        return SvgsPath.ghostSvg;
+      case "Ice":
+        return SvgsPath.iceSvg;
+      case "Fighting":
+        return SvgsPath.fightingSvg;
+      case "Fairy":
+        return SvgsPath.fairySvg;
+      case "Dark":
+        return SvgsPath.darkSvg;
+      case "Steel":
+        return SvgsPath.steelSvg;
+      case "Electric":
+        return SvgsPath.electricSvg;
+      default:
+        return "";
+    }
+  }
+
   static Widget iconElement(PokemonModel pokemon) {
     final List<String> item = pokemon.jenis;
     final List<Widget> iconList = [];

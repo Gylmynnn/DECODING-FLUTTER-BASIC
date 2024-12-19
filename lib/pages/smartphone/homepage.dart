@@ -18,7 +18,7 @@ class SmartphoneHomePage extends StatefulWidget {
 
 final TextEditingController searchC = TextEditingController();
 List<PokemonModel> pokemons = <PokemonModel>[];
-String? selectedJenis;
+String selectedJenis = "All";
 String svgPath = SvgsPath.fillterImg;
 final List<String> jenisOptions = [
   "All",
@@ -98,7 +98,7 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
     setState(() {
       if (selectedJenis != "All") {
         pokemons = dataPokemon.where((pokemon) {
-          return pokemon.jenis.contains(selectedJenis!);
+          return pokemon.jenis.contains(selectedJenis);
         }).toList();
       } else {
         pokemons = dataPokemon;
@@ -111,7 +111,7 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
       final filteredPokemon = selectedJenis == "All"
           ? dataPokemon
           : dataPokemon.where((pokemon) {
-              return pokemon.jenis.contains(selectedJenis!);
+              return pokemon.jenis.contains(selectedJenis);
             }).toList();
       pokemons = filteredPokemon.where((PokemonModel pokemon) {
         return pokemon.nama.toLowerCase().contains(query.toLowerCase());
@@ -237,37 +237,40 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
             future: Future.delayed(const Duration(seconds: 1)),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Skeletonizer(
+                return Expanded(
+                    child: Skeletonizer(
                   enabled: true,
-                  child: Expanded(
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.7, crossAxisCount: 2),
-                      itemCount: pokemons.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final PokemonModel pokemon = pokemons[index];
-                        return Column(
-                          children: [
-                            Text(pokemon.nama),
-                            Image.network(pokemon.gambar)
-                          ],
-                        );
-                      },
-                    ),
+                  child: GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 0.7, crossAxisCount: 2),
+                    itemCount: pokemons.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final PokemonModel pokemon = pokemons[index];
+                      return Padding(
+                          padding: EdgeInsets.only(left: 6),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(pokemon.nama),
+                              Image.network(pokemon.gambar)
+                            ],
+                          ));
+                    },
                   ),
-                );
+                ));
               } else {
-                return Skeletonizer(
+                return Expanded(
+                    child: Skeletonizer(
                   enabled: false,
-                  child: Expanded(
-                    child: GridView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, childAspectRatio: 0.7),
-                      itemCount: pokemons.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final PokemonModel pokemon = pokemons[index];
-                        return GestureDetector(
+                  child: GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 0.7),
+                    itemCount: pokemons.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final PokemonModel pokemon = pokemons[index];
+                      return GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
@@ -279,20 +282,22 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
                               ),
                             );
                           },
-                          child: CCard(
-                            pokeTitleSize: 12,
-                            kanjiSize: 34,
-                            pokeNumberSize: 20,
-                            margin: const EdgeInsets.all(6),
-                            cardColor: Utils.customCardColor(pokemon),
-                            item: pokemon,
-                            lengthData: index,
-                          ),
-                        );
-                      },
-                    ),
+                          child: pokemons.isNotEmpty
+                              ? CCard(
+                                  pokeTitleSize: 12,
+                                  kanjiSize: 34,
+                                  pokeNumberSize: 20,
+                                  margin: const EdgeInsets.all(6),
+                                  cardColor: Utils.customCardColor(pokemon),
+                                  item: pokemon,
+                                  lengthData: index,
+                                )
+                              : Center(
+                                  child: Text("Pokemon Not Found"),
+                                ));
+                    },
                   ),
-                );
+                ));
               }
             },
           ),

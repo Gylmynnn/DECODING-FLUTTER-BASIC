@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/utils/assets.dart';
-import 'package:pokedex/utils/theme.dart';
 import 'package:pokedex/utils/utils.dart';
 
 class SmartphoneDetailPokemonPage extends StatefulWidget {
@@ -21,7 +20,7 @@ class _SmartphoneDetailPokemonPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: GestureDetector(
       onTap: () => Navigator.pop(context),
           child: Container(
