@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pokedex/components/element.dart';
 
 import 'package:pokedex/model/pokemon_model.dart';
+import 'package:pokedex/pages/website/homepage.dart';
 import 'package:pokedex/utils/assets.dart';
 import 'package:pokedex/utils/theme.dart';
 
@@ -68,97 +70,65 @@ class Utils {
     }
   }
 
-  static Widget iconElement(PokemonModel pokemon) {
+  static Widget iconElement(PokemonModel pokemon,
+      {double? height, double? width}) {
     final List<String> item = pokemon.jenis;
-    final List<Widget> iconList = [];
+    final List<Widget> iconList = <Widget>[];
 
-    for (final type in item) {
-      switch (type) {
+    for (final String jenis in item) {
+      switch (jenis) {
         case "Grass":
           iconList.add(
-            Container(
-                height: 50,
-                width: 50,
-                margin: const EdgeInsets.only(right: 12),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(1000)),
-                child: SvgPicture.asset(
-                  SvgsPath.grassSvg,
-                  color: Themes.greenC,
-                )),
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.grassSvg,
+                svgColor: Themes.greenC),
           );
           break;
         case "Fire":
           iconList.add(
-            Container(
-                height: 50,
-                width: 50,
-                margin: const EdgeInsets.only(right: 12),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(1000)),
-                child: SvgPicture.asset(SvgsPath.fireSvg, color: Themes.redC)),
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.fireSvg,
+                svgColor: Themes.redC),
           );
           break;
         case "Electric":
           iconList.add(
-            Container(
-                height: 50,
-                width: 50,
-                margin: const EdgeInsets.only(right: 12),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(1000)),
-                child: SvgPicture.asset(
-                  SvgsPath.electricSvg,
-                  color: Themes.yellowC,
-                )),
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.electricSvg,
+                svgColor: Themes.yellowC),
           );
           break;
         case "Water":
           iconList.add(
-            Container(
-                height: 50,
-                width: 50,
-                margin: const EdgeInsets.only(right: 12),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(1000)),
-                child: SvgPicture.asset(
-                  SvgsPath.waterSvg,
-                  color: Themes.blueC,
-                )),
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.waterSvg,
+                svgColor: Themes.blueC),
           );
           break;
         case "Poison":
           iconList.add(
-            Container(
-                height: 50,
-                width: 50,
-                margin: const EdgeInsets.only(right: 12),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(1000)),
-                child: SvgPicture.asset(
-                  SvgsPath.poisonSvg,
-                  color: Themes.purpleC,
-                )),
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.poisonSvg,
+                svgColor: Themes.purpleC),
           );
           break;
-
         default:
           break; // Handle other types or default case as needed
       }
     }
 
     return Wrap(
-      children: iconList,
+      children: [...iconList],
     );
   }
 
@@ -175,11 +145,14 @@ class Utils {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(12)),
-          child: Text(text,
-              textAlign: TextAlign.center,
-              style:
-                  TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+          ),
         );
       }).toList(),
     );

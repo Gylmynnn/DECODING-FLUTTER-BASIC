@@ -121,53 +121,54 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
 
   void _openBottomSheet() {
     showModalBottomSheet(
-        showDragHandle: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-            height: 1000,
-            width: double.infinity,
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      SvgsPath.logoImg,
-                      width: 120,
-                    ),
-                    Text("Fillter Your Pokemons"),
-                    const SizedBox(height: 12),
-                    Expanded(
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: 20,
-                        runSpacing: 20,
-                        children:
-                            List.generate(jenisOptions.length, (int index) {
-                          final String jenis = jenisOptions[index];
-                          return CBtn(
-                            width: 12,
-                            height: 12,
-                            svgSize: 30,
-                            svgColor: Colors.white,
-                            svgPath: _svgPath(jenis),
-                            onTap: () {
-                              setState(() {
-                                searchC.clear();
-                                selectedJenis = jenis;
-                                _fillterPokemon();
-                                svgPath = _svgPath(jenis);
-                              });
-                              Navigator.pop(context);
-                            },
-                          );
-                        }),
-                      ),
-                    ),
-                  ],
-                )),
-          );
-        });
+      showDragHandle: true,
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 1000,
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Column(
+              children: [
+                Image.asset(
+                  SvgsPath.logoImg,
+                  width: 120,
+                ),
+                Text("Fillter Your Pokemons"),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 20,
+                    runSpacing: 20,
+                    children: List.generate(jenisOptions.length, (int index) {
+                      final String jenis = jenisOptions[index];
+                      return CBtn(
+                        width: 12,
+                        height: 12,
+                        svgSize: 30,
+                        svgColor: Colors.white,
+                        svgPath: _svgPath(jenis),
+                        onTap: () {
+                          setState(() {
+                            searchC.clear();
+                            selectedJenis = jenis;
+                            _fillterPokemon();
+                            svgPath = _svgPath(jenis);
+                          });
+                          Navigator.pop(context);
+                        },
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override

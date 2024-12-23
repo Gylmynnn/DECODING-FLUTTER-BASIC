@@ -82,93 +82,100 @@ class _WebsiteHomePageState extends State<WebsiteHomePage> {
       body: Row(
         children: [
           Expanded(
-              child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 140),
-            child: Column(children: [
-              Image.asset(
-                SvgsPath.logoImg,
-                width: size / 3,
-              ),
-              Text(
-                "Search Your Favorite Pokemons",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-              Row(children: [
-                Expanded(
-                  child: CForm(
-                    controller: searchC,
-                    label: "Search Pokemons...",
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-                    onChange: (value) {
-                      _searchPokemon(value);
-                    },
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        if (searchC.text.isNotEmpty) {
-                          setState(() {
-                            pokemons = dataPokemon;
-                          });
-                          searchC.clear();
-                        }
-                      },
-                      icon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Icon(
-                            searchC.text.isEmpty ? Icons.search : Icons.clear),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 140),
+              child: Column(
+                children: [
+                  Image.asset(
+                    SvgsPath.logoImg,
+                    width: size / 3,
+                  ),
+                  Text(
+                    "Search Your Favorite Pokemons",
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(children: [
+                    Expanded(
+                      child: CForm(
+                        controller: searchC,
+                        label: "Search Pokemons...",
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                        onChange: (value) {
+                          _searchPokemon(value);
+                        },
+                        suffixIcon: IconButton(
+                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          onPressed: () {
+                            if (searchC.text.isNotEmpty) {
+                              setState(() {
+                                pokemons = dataPokemon;
+                              });
+                              searchC.clear();
+                            }
+                          },
+                          icon: Icon(searchC.text.isEmpty
+                              ? Icons.search
+                              : Icons.clear),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    CBtn(
+                      width: 20,
+                      height: 20,
+                      // onTap: _openBottomSheet,
+                      svgPath: svgPath,
+                      svgSize: 24,
+                      svgColor: Colors.white,
+                    ),
+                  ]),
+                  const SizedBox(height: 18),
+                  Text("Fillter Your Pokemons"),
+                  const SizedBox(height: 12),
+                  Expanded(
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 20,
+                      runSpacing: 20,
+                      children: List.generate(
+                        jenisOptions.length,
+                        (int index) {
+                          final String jenis = jenisOptions[index];
+                          return CBtn(
+                            width: 16,
+                            height: 16,
+                            svgSize: 36,
+                            svgColor: Colors.white,
+                            svgPath: Utils.svgImage(jenis),
+                            onTap: () {
+                              setState(
+                                () {
+                                  searchC.clear();
+                                  selectedJenis = jenis;
+                                  _fillterPokemon();
+                                  svgPath = Utils.svgImage(jenis);
+                                },
+                              );
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 20),
-                CBtn(
-                  width: 20,
-                  height: 20,
-                  // onTap: _openBottomSheet,
-                  svgPath: svgPath,
-                  svgSize: 24,
-                  svgColor: Colors.white,
-                ),
-              ]),
-              const SizedBox(height: 18),
-              Text("Fillter Your Pokemons"),
-              const SizedBox(height: 12),
-              Expanded(
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 20,
-                  runSpacing: 20,
-                  children: List.generate(jenisOptions.length, (int index) {
-                    final String jenis = jenisOptions[index];
-                    return CBtn(
-                      width: 16,
-                      height: 16,
-                      svgSize: 36,
-                      svgColor: Colors.white,
-                      svgPath: Utils.svgImage(jenis),
-                      onTap: () {
-                        setState(() {
-                          searchC.clear();
-                          selectedJenis = jenis;
-                          _fillterPokemon();
-                          svgPath = Utils.svgImage(jenis);
-                        });
-                      },
-                    );
-                  }),
-                ),
+                ],
               ),
-            ]),
-          )),
+            ),
+          ),
           FutureBuilder(
             future: Future.delayed(const Duration(seconds: 2)),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Expanded(
-                    child: Skeletonizer(
-                  enabled: true,
-                  child: GridView.builder(
+                  child: Skeletonizer(
+                    enabled: true,
+                    child: GridView.builder(
                       padding: const EdgeInsets.all(8),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -177,50 +184,85 @@ class _WebsiteHomePageState extends State<WebsiteHomePage> {
                       itemBuilder: (BuildContext context, int index) {
                         final PokemonModel pokemon = pokemons[index];
                         return Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Column(
-                              children: [
-                                Text(pokemon.nama),
-                                Image.network(pokemon.gambar)
-                              ],
-                            ));
-                      }),
-                ));
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            children: [
+                              Text(pokemon.nama),
+                              Image.network(pokemon.gambar)
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
               } else {
                 return Expanded(
-                    child: Skeletonizer(
-                        enabled: false,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 62),
-                          child: GridView.builder(
-                              padding: const EdgeInsets.only(right: 18),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: 0.7, crossAxisCount: 4),
-                              itemCount: pokemons.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final PokemonModel pokemon = pokemons[index];
-                                return CCard(
-                                  pokeNumberSize: 24,
-                                  pokeTitleSize: 18,
-                                  kanjiSize: 32,
-                                  lengthData: index,
-                                  margin: const EdgeInsets.all(8),
-                                  cardColor: Utils.customCardColor(pokemon),
-                                  item: pokemon,
-                                  onClick: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                WebDetailPokemonPage(
-                                                  pokemon: pokemon,
-                                                  lengthData: index,
-                                                )));
+                  child: Skeletonizer(
+                    enabled: false,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 62),
+                      child: GridView.builder(
+                        padding: const EdgeInsets.only(right: 18),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 0.7, crossAxisCount: 4),
+                        itemCount: pokemons.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final PokemonModel pokemon = pokemons[index];
+                          return CCard(
+                            pokeNumberSize: 24,
+                            pokeTitleSize: 18,
+                            kanjiSize: 32,
+                            lengthData: index,
+                            margin: const EdgeInsets.all(8),
+                            cardColor: Utils.customCardColor(pokemon),
+                            item: pokemon,
+                            onClick: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  transitionDuration:
+                                      Duration(milliseconds: 300),
+                                  reverseTransitionDuration:
+                                      Duration(milliseconds: 300),
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) {
+                                    return WebDetailPokemonPage(
+                                      pokemon: pokemon,
+                                      lengthData: index,
+                                    );
                                   },
-                                );
-                              }),
-                        )));
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    // Scale and fade animation
+                                    var scaleAnimation =
+                                        Tween<double>(begin: 0.9, end: 1.0)
+                                            .animate(
+                                      CurvedAnimation(
+                                          parent: animation,
+                                          curve: Curves.easeInOut),
+                                    );
+                                    var fadeAnimation =
+                                        Tween<double>(begin: 0.0, end: 1.0)
+                                            .animate(animation);
+
+                                    return FadeTransition(
+                                      opacity: fadeAnimation,
+                                      child: ScaleTransition(
+                                        scale: scaleAnimation,
+                                        child: child,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                );
               }
             },
           ),
