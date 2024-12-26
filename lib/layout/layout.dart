@@ -12,7 +12,7 @@ class ResponsiveLayout extends StatelessWidget {
       double deviceWidth = constraints.maxWidth;
       // double deviceHeight = constraints.maxHeight;
 
-      if (deviceWidth >= 600) {
+      if (deviceWidth >= 1000) {
         return const WebsiteHomePage();
       } else {
         return const SmartphoneHomePage();

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:pokedex/components/element.dart';
 
 import 'package:pokedex/model/pokemon_model.dart';
-import 'package:pokedex/pages/website/homepage.dart';
 import 'package:pokedex/utils/assets.dart';
 import 'package:pokedex/utils/theme.dart';
 
@@ -20,8 +19,16 @@ class Utils {
       return Themes.blueC;
     } else if (item == "Poison") {
       return Themes.purpleC;
+    } else if (item == "Normal") {
+      return Themes.grayC;
+    } else if (item == "Ground") {
+      return Themes.brownC;
+    } else if (item == "Bug") {
+      return Themes.greenC2;
+    } else if (item == "Psychic") {
+      return Themes.pinkC;
     } else {
-      return Colors.cyan;
+      return Colors.white;
     }
   }
 
@@ -121,9 +128,54 @@ class Utils {
                 svgPath: SvgsPath.poisonSvg,
                 svgColor: Themes.purpleC),
           );
+        case "Flying":
+          iconList.add(
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.flyingSvg,
+                svgColor: Themes.whiteC),
+          );
           break;
+        case "Normal":
+          iconList.add(
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.normalSvg,
+                svgColor: Themes.grayC),
+          );
+          break;
+        case "Ground":
+          iconList.add(
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.groundSvg,
+                svgColor: Themes.brownC),
+          );
+          break;
+        case "Bug":
+          iconList.add(
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.bugSvg,
+                svgColor: Themes.greenC2),
+          );
+          break;
+        case "Psychic":
+          iconList.add(
+            CElement(
+                height: height ?? 50,
+                width: width ?? 50,
+                svgPath: SvgsPath.psychicSvg,
+                svgColor: Themes.pinkC),
+          );
+          break;
+
         default:
-          break; // Handle other types or default case as needed
+          break;
       }
     }
 

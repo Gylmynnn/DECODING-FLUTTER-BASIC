@@ -42,51 +42,6 @@ final List<String> jenisOptions = [
   "Ground",
 ];
 
-String _svgPath(String jenis) {
-  switch (jenis) {
-    case "All":
-      return SvgsPath.fillterImg;
-    case "Grass":
-      return SvgsPath.grassSvg;
-    case "Fire":
-      return SvgsPath.fireSvg;
-    case "Water":
-      return SvgsPath.waterSvg;
-    case "Poison":
-      return SvgsPath.poisonSvg;
-    case "Dragon":
-      return SvgsPath.dragonSvg;
-    case "Rock":
-      return SvgsPath.rockSvg;
-    case "Bug":
-      return SvgsPath.bugSvg;
-    case "Flying":
-      return SvgsPath.flyingSvg;
-    case "Psychic":
-      return SvgsPath.psychicSvg;
-    case "Ground":
-      return SvgsPath.groundSvg;
-    case "Normal":
-      return SvgsPath.normalSvg;
-    case "Ghost":
-      return SvgsPath.ghostSvg;
-    case "Ice":
-      return SvgsPath.iceSvg;
-    case "Fighting":
-      return SvgsPath.fightingSvg;
-    case "Fairy":
-      return SvgsPath.fairySvg;
-    case "Dark":
-      return SvgsPath.darkSvg;
-    case "Steel":
-      return SvgsPath.steelSvg;
-    case "Electric":
-      return SvgsPath.electricSvg;
-    default:
-      return "";
-  }
-}
-
 class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
   @override
   void initState() {
@@ -138,31 +93,32 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
                 Text("Fillter Your Pokemons"),
                 const SizedBox(height: 12),
                 Expanded(
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 20,
-                    runSpacing: 20,
-                    children: List.generate(jenisOptions.length, (int index) {
-                      final String jenis = jenisOptions[index];
-                      return CBtn(
-                        width: 12,
-                        height: 12,
-                        svgSize: 30,
-                        svgColor: Colors.white,
-                        svgPath: _svgPath(jenis),
-                        onTap: () {
-                          setState(() {
-                            searchC.clear();
-                            selectedJenis = jenis;
-                            _fillterPokemon();
-                            svgPath = _svgPath(jenis);
-                          });
-                          Navigator.pop(context);
-                        },
-                      );
-                    }),
-                  ),
-                ),
+                    child: GridView.builder(
+                        padding: const EdgeInsets.all(16),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                            crossAxisCount: 4),
+                        itemCount: jenisOptions.length,
+                        itemBuilder: (context, index) {
+                          final String jenis = jenisOptions[index];
+                          return CBtn(
+                            width: 20,
+                            height: 20,
+                            svgSize: 20,
+                            svgColor: Colors.white,
+                            svgPath: Utils.svgImage(jenis),
+                            onTap: () {
+                              setState(() {
+                                searchC.clear();
+                                selectedJenis = jenis;
+                                _fillterPokemon();
+                                svgPath = Utils.svgImage(jenis);
+                              });
+                              Navigator.pop(context);
+                            },
+                          );
+                        }))
               ],
             ),
           ),
@@ -201,7 +157,7 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
                   child: CForm(
                       label: "Search Pokemon..",
                       contentPadding: const EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 24),
+                          vertical: 16, horizontal: 24),
                       controller: searchC,
                       onChange: (value) {
                         _searchPokemon(value);
@@ -234,57 +190,87 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
           const SizedBox(
             height: 16,
           ),
-          FutureBuilder(
-            future: Future.delayed(const Duration(seconds: 1)),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Expanded(
-                    child: Skeletonizer(
-                  enabled: true,
-                  child: GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 0.7, crossAxisCount: 2),
-                    itemCount: pokemons.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final PokemonModel pokemon = pokemons[index];
-                      return Padding(
-                          padding: EdgeInsets.only(left: 6),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(pokemon.nama),
-                              Image.network(pokemon.gambar)
-                            ],
-                          ));
-                    },
-                  ),
-                ));
-              } else {
-                return Expanded(
-                    child: Skeletonizer(
-                  enabled: false,
-                  child: GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 0.7),
-                    itemCount: pokemons.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final PokemonModel pokemon = pokemons[index];
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return SmartphoneDetailPokemonPage(
-                                      pokemonNumber: index, pokemon: pokemon);
-                                },
-                              ),
-                            );
+          pokemons.isNotEmpty
+              ? FutureBuilder(
+                  future: Future.delayed(const Duration(seconds: 1)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Expanded(
+                          child: Skeletonizer(
+                        enabled: true,
+                        child: GridView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 0.7, crossAxisCount: 2),
+                          itemCount: pokemons.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final PokemonModel pokemon = pokemons[index];
+                            return Padding(
+                                padding: EdgeInsets.only(left: 6),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(pokemon.nama),
+                                    Image.network(pokemon.gambar)
+                                  ],
+                                ));
                           },
-                          child: pokemons.isNotEmpty
-                              ? CCard(
+                        ),
+                      ));
+                    } else {
+                      return Expanded(
+                          child: Skeletonizer(
+                        enabled: false,
+                        child: GridView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 0.7),
+                          itemCount: pokemons.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final PokemonModel pokemon = pokemons[index];
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      transitionDuration:
+                                          Duration(milliseconds: 300),
+                                      reverseTransitionDuration:
+                                          Duration(milliseconds: 300),
+                                      pageBuilder: (context, animation,
+                                          secondaryAnimation) {
+                                        return SmartphoneDetailPokemonPage(
+                                          pokemon: pokemon,
+                                          pokemonNumber: index,
+                                        );
+                                      },
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        // Scale and fade animation
+                                        var scaleAnimation =
+                                            Tween<double>(begin: 0.9, end: 1.0)
+                                                .animate(
+                                          CurvedAnimation(
+                                              parent: animation,
+                                              curve: Curves.easeInOut),
+                                        );
+                                        var fadeAnimation =
+                                            Tween<double>(begin: 0.0, end: 1.0)
+                                                .animate(animation);
+
+                                        return FadeTransition(
+                                          opacity: fadeAnimation,
+                                          child: ScaleTransition(
+                                            scale: scaleAnimation,
+                                            child: child,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: CCard(
                                   pokeTitleSize: 12,
                                   kanjiSize: 34,
                                   pokeNumberSize: 20,
@@ -292,16 +278,16 @@ class _SmartphoneHomePageState extends State<SmartphoneHomePage> {
                                   cardColor: Utils.customCardColor(pokemon),
                                   item: pokemon,
                                   lengthData: index,
-                                )
-                              : Center(
-                                  child: Text("Pokemon Not Found"),
                                 ));
-                    },
-                  ),
-                ));
-              }
-            },
-          ),
+                          },
+                        ),
+                      ));
+                    }
+                  },
+                )
+              : Center(
+                  child: Text("Pokemon Not Found"),
+                ),
         ],
       ),
     );

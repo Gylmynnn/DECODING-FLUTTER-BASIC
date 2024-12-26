@@ -168,104 +168,106 @@ class _WebsiteHomePageState extends State<WebsiteHomePage> {
               ),
             ),
           ),
-          FutureBuilder(
-            future: Future.delayed(const Duration(seconds: 2)),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Expanded(
-                  child: Skeletonizer(
-                    enabled: true,
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(8),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4, childAspectRatio: 0.8),
-                      itemCount: pokemons.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final PokemonModel pokemon = pokemons[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            children: [
-                              Text(pokemon.nama),
-                              Image.network(pokemon.gambar)
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              } else {
-                return Expanded(
-                  child: Skeletonizer(
-                    enabled: false,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 62),
-                      child: GridView.builder(
-                        padding: const EdgeInsets.only(right: 18),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 0.7, crossAxisCount: 4),
-                        itemCount: pokemons.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final PokemonModel pokemon = pokemons[index];
-                          return CCard(
-                            pokeNumberSize: 24,
-                            pokeTitleSize: 18,
-                            kanjiSize: 32,
-                            lengthData: index,
-                            margin: const EdgeInsets.all(8),
-                            cardColor: Utils.customCardColor(pokemon),
-                            item: pokemon,
-                            onClick: () {
-                              Navigator.of(context).push(
-                                PageRouteBuilder(
-                                  transitionDuration:
-                                      Duration(milliseconds: 300),
-                                  reverseTransitionDuration:
-                                      Duration(milliseconds: 300),
-                                  pageBuilder:
-                                      (context, animation, secondaryAnimation) {
-                                    return WebDetailPokemonPage(
-                                      pokemon: pokemon,
-                                      lengthData: index,
-                                    );
-                                  },
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    // Scale and fade animation
-                                    var scaleAnimation =
-                                        Tween<double>(begin: 0.9, end: 1.0)
-                                            .animate(
-                                      CurvedAnimation(
-                                          parent: animation,
-                                          curve: Curves.easeInOut),
-                                    );
-                                    var fadeAnimation =
-                                        Tween<double>(begin: 0.0, end: 1.0)
-                                            .animate(animation);
-
-                                    return FadeTransition(
-                                      opacity: fadeAnimation,
-                                      child: ScaleTransition(
-                                        scale: scaleAnimation,
-                                        child: child,
-                                      ),
-                                    );
-                                  },
+          pokemons.isNotEmpty
+              ? FutureBuilder(
+                  future: Future.delayed(const Duration(seconds: 1)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Expanded(
+                        child: Skeletonizer(
+                          enabled: true,
+                          child: GridView.builder(
+                            padding: const EdgeInsets.all(8),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 4, childAspectRatio: 0.8),
+                            itemCount: pokemons.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final PokemonModel pokemon = pokemons[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  children: [
+                                    Text(pokemon.nama),
+                                    Image.network(pokemon.gambar)
+                                  ],
                                 ),
                               );
                             },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Expanded(
+                        child: Skeletonizer(
+                          enabled: false,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 62),
+                            child: GridView.builder(
+                              padding: const EdgeInsets.only(right: 18),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 0.7, crossAxisCount: 4),
+                              itemCount: pokemons.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final PokemonModel pokemon = pokemons[index];
+                                return CCard(
+                                  pokeNumberSize: 24,
+                                  pokeTitleSize: 18,
+                                  kanjiSize: 32,
+                                  lengthData: index,
+                                  margin: const EdgeInsets.all(8),
+                                  cardColor: Utils.customCardColor(pokemon),
+                                  item: pokemon,
+                                  onClick: () {
+                                    Navigator.of(context).push(
+                                      PageRouteBuilder(
+                                        transitionDuration:
+                                            Duration(milliseconds: 300),
+                                        reverseTransitionDuration:
+                                            Duration(milliseconds: 300),
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) {
+                                          return WebDetailPokemonPage(
+                                            pokemon: pokemon,
+                                            lengthData: index,
+                                          );
+                                        },
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          // Scale and fade animation
+                                          var scaleAnimation = Tween<double>(
+                                                  begin: 0.9, end: 1.0)
+                                              .animate(
+                                            CurvedAnimation(
+                                                parent: animation,
+                                                curve: Curves.easeInOut),
+                                          );
+                                          var fadeAnimation = Tween<double>(
+                                                  begin: 0.0, end: 1.0)
+                                              .animate(animation);
+
+                                          return FadeTransition(
+                                            opacity: fadeAnimation,
+                                            child: ScaleTransition(
+                                              scale: scaleAnimation,
+                                              child: child,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                )
+              : Expanded(child: Center(child: Text("Pokemon Not Found"))),
         ],
       ),
     );

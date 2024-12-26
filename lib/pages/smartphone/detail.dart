@@ -22,14 +22,20 @@ class _SmartphoneDetailPokemonPageState
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: GestureDetector(
-      onTap: () => Navigator.pop(context),
+          onTap: () => Navigator.pop(context),
           child: Container(
-          padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(color: Colors.grey.shade500, blurRadius: 16, spreadRadius: 1)
-        ], shape: BoxShape.circle),
-        child: Icon(Icons.arrow_back),
-      )),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.shade500,
+                      blurRadius: 16,
+                      spreadRadius: 1)
+                ],
+                shape: BoxShape.circle),
+            child: Icon(Icons.arrow_back),
+          )),
       backgroundColor: Utils.customCardColor(widget.pokemon),
       appBar: AppBar(
         leading: SizedBox(),
@@ -93,7 +99,6 @@ class _SmartphoneDetailPokemonPageState
             widget.pokemon.tentang,
             textAlign: TextAlign.justify,
           ),
-
           const SizedBox(height: 8),
           Row(children: [
             Expanded(
@@ -134,6 +139,28 @@ class _SmartphoneDetailPokemonPageState
               );
             }),
           ),
+          const SizedBox(height: 10),
+          Row(children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(12)),
+              child: Text(
+                "Tinggi : ${widget.pokemon.tinggi}",
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(12)),
+              child: Text(
+                "Berat : ${widget.pokemon.berat}",
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+          ]),
           const SizedBox(height: 8),
           Row(children: [
             Expanded(
